@@ -2,10 +2,8 @@
 title: "Statistical Inference Course Project, Part 2"
 author: "Gerardo Mondragón"
 date: "8/5/2020"
-output: 
-html_document:
-    keep_md: true
----
+output: html_document
+---     
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
