@@ -1,0 +1,85 @@
+---
+title: "Statistical Inference Course Project, Part 2"
+author: "Gerardo Mondragón"
+date: "8/5/2020"
+output: 
+html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+# **Part 2: Basic Inferential Data Analysis**
+
+# Overview
+This second part of the project will focus on exploring the ToothGrowth data, present in the *datasets* library. More specifically, we will compare the tooth growth by supp and dose, using techniques learned in the Course.
+
+## Loading the data
+```{r load data}
+library(datasets)
+data("ToothGrowth")
+str(ToothGrowth)
+```
+The **len** column describes the length of odontoblasts in guinea pigs, the **sup** column describes the type of suplement received (orange juice and ascorbic acid), and the **dose** column represents the mg/day of the supplement.
+
+## Exploratory Data Analysis
+```{r exp data analysis}
+t = ToothGrowth
+levels(t$supp) <- c("Orange Juice", "Ascorbic Acid")
+ggplot(t, aes(factor(dose), len)) + 
+    geom_boxplot(aes(fill = supp), show.legend = FALSE) +
+    labs(x = "Dose (mg/day)", y = "Tooth length", title = "Tooth Length by Dosage for each Supplement Type") +
+    facet_grid(.~supp)
+```
+
+## Basic Summary of the Data
+The above boxplot shows that increasing the supplement dose seems to aid in the increase in tooth growth, with orange juice being seemingly more efective, especially at the lower dosages. However, at 2 mg/day, both supplements appear to be equally as effective.
+
+## Comparison of Tooth Growth by Supplement and Dose
+### *Hypothesis 1: Both supplements perform equally across the dataset.*
+### *H_0: Orange Juice = Ascorbic Acid*
+### *H_a: Orange Juice > Ascorbic Acid*
+```{r hyp 1}
+hyp1 <- t.test(len ~ supp, data = t)
+hyp1$conf.int
+hyp1$p.value
+```
+The confidence interval contains 0, and the p-value exceeds the alpha value of 0.05, thus the null hypothesis cannot be rejected. Both supplements perform equally across the dataset. 
+
+### *Hypothesis 2: For a 0.5 mg/day dosage, both supplements perform equally.*
+### *H_0: Orange Juice = Ascorbic Acid*
+### *H_a: Orange Juice > Ascorbic Acid*
+```{r hyp 2}
+hyp2 <- t.test(len ~ supp, data = subset(t, dose == 0.5))
+hyp2$conf.int
+hyp2$p.value
+```
+The confidence interval doesn't contain 0, and the p-value is below the alpha value of 0.05, thus the null hypothesis cannot be accepted. The alternative hyptohesis that orange juice performs better than ascorbic acid at a dosage level of 0.5 mg/day is accepted. 
+
+
+### *Hypothesis 3: For a 1 mg/day dosage, both supplements perform equally.*
+### *H_0: Orange Juice = Ascorbic Acid*
+### *H_a: Orange Juice > Ascorbic Acid*
+```{r hyp 3}
+hyp3 <- t.test(len ~ supp, data = subset(t, dose == 1))
+hyp3$conf.int
+hyp3$p.value
+```
+The confidence interval doesn't contain 0, and the p-value is below the alpha value of 0.05, thus the null hypothesis cannot be accepted. The alternative hyptohesis that orange juice performs better than ascorbic acid at a dosage level of 1 mg/day is accepted. 
+
+### *Hypothesis 4: For a 2 mg/day dosage, both supplements perform equally.*
+### *H_0: Orange Juice = Ascorbic Acid*
+### *H_a: Orange Juice > Ascorbic Acid*
+```{r hyp 4}
+hyp4 <- t.test(len ~ supp, data = subset(t, dose == 2))
+hyp4$conf.int
+hyp4$p.value
+```
+The confidence interval contains 0, and the p-value is way above the alpha value of 0.05, thus the null hypothesis cannot be rejected. Both supplements perform equally at a dosage level of 2 mg/day.
+
+## Conclusions and Assumptions
+We assume that the tooth lengths are distributed normally and that no other factors are affecting said tooth lengths.
+With these, we can conclude that orange juice is more effective at increasing the tooth length than ascorbic acid when using dosages of 0.5 and 1 mg/day. At 2 mg/day however, there is no evidence to suggest that either supplement is better than the other.
+Lastly, when looking at the complete set of data, this last statement holds up: both supplements perform statistically equal. 
