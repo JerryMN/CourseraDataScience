@@ -78,6 +78,6 @@ ggplot(population, aes(x=x)) +
     geom_vline(xintercept=theo_mean, colour="red")
 ```
 
-![plot of chunk plot normal](figure/plot normal-1.png)
+![plot of chunk plot normal](figure/plot_normal-1.png)
 
 Visually, we can tell that the histogram's density function is really close to the red, theoretical curve. Therefore, anc coupled with the previous information, we can conclude that the sample is approximately normally distributed. 
