@@ -312,7 +312,7 @@ ggplot(agg_health, aes(EVENT, TOTAL, fill = Type)) + geom_col(position = "dodge"
         scale_y_continuous(breaks = seq(0, 100000, 10000))
 ```
 
-![](Analysis_files/figure-html/first plot-1.png)<!-- -->
+![](Analysis_files/figure-html/first_plot-1.png)<!-- -->
 
 It is clear from this graph, that tornadoes are, by far, the most harmful weather event to the population health, both in injuries and in fatalities. 
 
@@ -325,7 +325,7 @@ ggplot(agg_eco, aes(EVENT, TOTAL/10^9, fill = Type)) + geom_col(position = "dodg
         scale_y_continuous(breaks = seq(0,180,20))
 ```
 
-![](Analysis_files/figure-html/second plot-1.png)<!-- -->
+![](Analysis_files/figure-html/second_plot-1.png)<!-- -->
 
 Here we can appreciate that the 3 most devastating weather event regarding property damage are FLOODS, followed by OTHER, and then STORMS
 
