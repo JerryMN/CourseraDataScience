@@ -1,0 +1,62 @@
+---
+title: "Regression Models Course Project"
+author: "Gerardo Mondragón"
+date: "8/5/2020"
+output: 
+    html_document:
+        keep_md: true
+---
+
+## Summary
+This report aims to solve questions concerning the miles per gallon performance and type of transmission. Specifically, is an automatic or manual transmission better for MPG? This difference will then be quantified. We will use the mtcars dataset in R to answer these questions. 
+
+We can conclude that a manual transmission will yield more miles per gallon of fuel. However, the MPG variable is confounded by another two variables in the dataset: weight (a heavier vehicle consumes more fuel, thus less miles per gallon), and number of cylinders in the engine (more cylinders means using more fuel).
+
+## Data Analysis
+We will first load the data and other packages.
+```{r load data, fig.width=5, fig.height=3}
+library(ggplot2)
+data(mtcars)
+mtcars$vs <- factor(mtcars$vs)
+mtcars$am.label <- factor(mtcars$am, labels=c("Automatic","Manual")) # 0 = Automatic, 1 = Manual
+mtcars$gear <- factor(mtcars$gear)
+mtcars$carb <- factor(mtcars$carb)
+ggplot(mtcars, aes(mpg, am.label)) + geom_boxplot() + coord_flip() + labs(x= "Miles per Gallon", y = "Transmission Type")
+```
+
+Outright we can see that manual transmissions have better MPG.
+
+## Regression Analysis
+Let's calculate the mean MPG for each transmission type.
+```{r mean mpg}
+aggregate(mtcars$mpg, by = list(mtcars$am.label), mean)
+```
+
+Manual transmissions yield on average, 7 more miles per gallon than automatic transmissions. Let's create a linear regression model.
+```{r reg model}
+reg <- summary(lm(mpg ~ factor(am.label), mtcars))
+reg$coefficients[,4] # p-values
+reg$r.squared # R^2
+```
+
+We can safely say that a manual transmission is better than an automatic transmission for MPG. However, we can see that the R^2 is around 0.36. So the transmission type accounts for only 36% of the variation. Let's do an ANOVA to see where the rest of the variance comes from.
+```{r anova}
+summary(aov(mpg ~ ., mtcars))
+```
+
+Those variables with a p-value < 0.05 are contributing factors to the variance of *mpg*. As such, we will shift our interest towards *cyl*, *disp* and *wt*. Let's do a multivariate regression with these variables.
+```{r multivar reg}
+reg2 <- summary(lm(mpg ~ cyl + disp + wt + am, mtcars))
+reg2$coefficients[,4] # p-values
+reg2$r.squared # R^2
+```
+
+We can discard *disp* as a significant factor due to its p-value of 0.545. Additionally, the R^2 is now 0.83. Thus, we can account for 83% of the variance in *mpg* using this model. 
+
+## Residual Plots and Analysis
+```{r plots}
+par(mfrow = c(2, 2))
+plot(lm(mpg ~ cyl + disp + wt + am, mtcars))
+```
+
+We can see from the Q-Q plot that the residuals are normally distributed, with a few outliers. Also, from the Resuduals vs Fitted plot, we can observe an homogenous variance. 
