@@ -25,7 +25,7 @@ mtcars$carb <- factor(mtcars$carb)
 ggplot(mtcars, aes(mpg, am.label)) + geom_boxplot() + coord_flip() + labs(x= "Miles per Gallon", y = "Transmission Type")
 ```
 
-![](Project_files/figure-html/load data-1.png)<!-- -->
+![](Project_files/figure-html/load_data-1.png)<!-- -->
 
 Outright we can see that manual transmissions have better MPG.
 
