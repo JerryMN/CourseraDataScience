@@ -1,10 +1,8 @@
 ---
 title: "R Markdown and Leaflet"
 author: "Gerardo Mondragón"
-date: "8/15/2020"
-output: 
-    html_document:
-        keep_md: true
+date: "2020-08-16"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -43,7 +41,7 @@ population <- read_csv("capital-population.csv",
 # merge
 capitals2 <- merge(capitalsEurope, population, by="Capital")
 capitals2 <- filter(capitals2, Population > 100000)
-popup <- paste(capitals2$Capital, ",", capitals2$Country, "<br>", capitals2$Population)
+popup <- paste(capitals2$Capital, ",", capitals2$Country, "<br>", capitals2$Population, "inhabitants")
 ## subset only lat and long
 latlong <- capitals2 %>% select(c(3, 4))
 
