@@ -1,7 +1,6 @@
 ---
 title: "Programming Assignment 1"
 author: "Gerardo Mondragón"
-date: "8/16/2020"
 output: 
     html_document:
         keep_md: true
