@@ -1,0 +1,25 @@
+---
+title: "R Markdown and Leaflet"
+author: "Gerardo Mondragón"
+date: "8/15/2020"
+output: 
+    html_document:
+        keep_md: true
+---
+
+
+
+## Overview
+
+This web page is the assignment for week 2 of the Developing Data Products course. It was created using R Markdown and below is a map created with the **leaflet** package.
+
+## Map
+
+The map below will show the capitals of all countries in Europe, as taken from the following [link](http://techslides.com/list-of-countries-and-capitals). Then, we remove those capitals with less than 100,000 inhabitants, using data from [here](https://en.wikipedia.org/wiki/List_of_national_capitals_by_population). 
+
+
+
+
+
+<!--html_preserve--><div id="htmlwidget-c7c39fdfd21001ea6c32" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c7c39fdfd21001ea6c32">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircles","args":[[52.35,39.93333333,37.98333333,40.38333333,44.83333333,52.51666667,46.91666667,48.15,50.83333333,44.43333333,47.5,47,55.66666667,53.31666667,60.16666667,50.43333333,38.71666667,46.05,51.5,49.6,40.4,53.9,55.75,35.16666667,35.183333,59.91666667,48.86666667,42.43333333,50.08333333,42.66666667,64.15,56.95,41.9,43.86666667,42,42.68333333,59.33333333,59.43333333,41.68333333,41.31666667,48.2,54.68333333,52.25,40.16666667,45.8],[4.916667,32.866667,23.733333,49.866667,20.5,13.4,7.466667,17.116667,4.333333,26.1,19.083333,28.85,12.583333,-6.233333,24.933333,30.516667,-9.133333,14.516667,-0.083333,6.116667,-3.683333,27.566667,37.6,33.366667,33.366667,10.75,2.333333,19.266667,14.466667,21.166667,-21.95,24.1,12.483333,18.416667,21.433333,23.316667,18.05,24.716667,44.833333,19.816667,16.366667,25.316667,21,44.5,16],[92518.3765529854,233345.794905329,81489.017664959,148465.484204242,107451.803149133,193601.342970549,34875.6361949141,65131.1753310195,38584.0640679543,139364.773167397,131492.96559132,89151.5563520907,89113.859752566,108313.387907497,79723.9612663596,168736.480939956,75143.662407418,52928.2533246658,298464.084941555,34527.3804392977,179820.104548963,130463.05990586,353644.850096817,51961.5242270663,51961.5242270663,80355.5225233462,149711.255421895,37663.5101922272,111429.9780131,44521.2308904415,33911.6499156263,84440.2747508557,169502.330367461,62859.6054712404,72180.3297304743,113004.424692133,98089.448973883,66348.0218243167,102224.899119539,87386.1545097391,132275.205537546,74613.8727047457,130817.582916059,103946.476611764,89677.1988857814],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":2,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},["Amsterdam , Netherlands <br> 855965","Ankara , Turkey <br> 5445026","Athens , Greece <br> 664046","Baku , Azerbaijan <br> 2204200","Belgrade , Serbia <br> 1154589","Berlin , Germany <br> 3748148","Bern , Switzerland <br> 121631","Bratislava , Slovakia <br> 424207","Brussels , Belgium <br> 148873","Bucharest , Romania <br> 1942254","Budapest , Hungary <br> 1729040","Chisinau , Moldova <br> 794800","Copenhagen , Denmark <br> 794128","Dublin , Ireland <br> 1173179","Helsinki , Finland <br> 635591","Kyiv , Ukraine <br> 2847200","Lisbon , Portugal <br> 564657","Ljubljana , Slovenia <br> 280140","London , United Kingdom <br> 8908081","Luxembourg , Luxembourg <br> 119214","Madrid , Spain <br> 3233527","Minsk , Belarus <br> 1702061","Moscow , Russia <br> 12506468","Nicosia , Cyprus <br> 270000","Nicosia , Cyprus <br> 270000","Oslo , Norway <br> 645701","Paris , France <br> 2241346","Podgorica , Montenegro <br> 141854","Prague , Czech Republic <br> 1241664","Pristina , Kosovo <br> 198214","Reykjavik , Iceland <br> 115000","Riga , Latvia <br> 713016","Rome , Italy <br> 2873104","Sarajevo , Bosnia and Herzegovina <br> 395133","Skopje , Macedonia <br> 521000","Sofia , Bulgaria <br> 1277000","Stockholm , Sweden <br> 962154","Tallinn , Estonia <br> 440206","Tbilisi , Georgia <br> 1044993","Tirana , Albania <br> 763634","Vienna , Austria <br> 1749673","Vilnius , Lithuania <br> 556723","Warsaw , Poland <br> 1711324","Yerevan , Armenia <br> 1080487","Zagreb , Croatia <br> 804200"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]}],"limits":{"lat":[35.16666667,64.15],"lng":[-21.95,49.866667]}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->

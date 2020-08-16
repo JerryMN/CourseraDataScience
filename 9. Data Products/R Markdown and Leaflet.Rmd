@@ -1,0 +1,57 @@
+---
+title: "R Markdown and Leaflet"
+author: "Gerardo Mondragón"
+date: "8/15/2020"
+output: 
+    html_document:
+        keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(readr)
+library(leaflet)
+library(dplyr)
+```
+
+## Overview
+
+This web page is the assignment for week 2 of the Developing Data Products course. It was created using R Markdown and below is a map created with the **leaflet** package.
+
+## Map
+
+The map below will show the capitals of all countries in Europe, as taken from the following [link](http://techslides.com/list-of-countries-and-capitals). Then, we remove those capitals with less than 100,000 inhabitants, using data from [here](https://en.wikipedia.org/wiki/List_of_national_capitals_by_population). 
+
+```{r read location data, warning=FALSE}
+# read data
+capitals <- read_csv("country-capitals.csv", 
+    col_types = cols(CapitalLatitude = col_number(), 
+        CapitalLongitude = col_number(), 
+        CountryCode = col_skip()))
+
+# subset Europe and delete extra columns
+capitalsEurope <- capitals %>% filter(ContinentName == "Europe") %>% select(-5)
+names(capitalsEurope) <- c("Country", "Capital", "Latitude", "Longitude")
+```
+
+```{r read population data, warning=FALSE}
+population <- read_csv("capital-population.csv", 
+    col_types = cols(Rank = col_skip(), `Country/Territory` = col_skip(), 
+        Population = col_number(), Year = col_skip(), 
+        `% ofcountry'spopulation` = col_skip()))
+
+# merge
+capitals2 <- merge(capitalsEurope, population, by="Capital")
+capitals2 <- filter(capitals2, Population > 100000)
+popup <- paste(capitals2$Capital, ",", capitals2$Country, "<br>", capitals2$Population)
+## subset only lat and long
+latlong <- capitals2 %>% select(c(3, 4))
+
+```
+
+```{r map}
+# latlong %>% leaflet() %>% addTiles() %>% addMarkers(popup = popup, clusterOptions = markerClusterOptions())
+latlong %>% 
+    leaflet() %>% addTiles() %>% addCircles(weight = 2, radius = sqrt(capitals2$Population) * 100, popup = popup)
+
+```
