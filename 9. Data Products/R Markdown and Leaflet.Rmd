@@ -55,3 +55,7 @@ latlong %>%
     leaflet() %>% addTiles() %>% addCircles(weight = 2, radius = sqrt(capitals2$Population) * 100, popup = popup)
 
 ```
+
+## Code
+
+To view the complete code and all other relevant files for this project, head to my [github page](https://github.com/JerryMN/CourseraDataScience/tree/master/9.%20Data%20Products).
