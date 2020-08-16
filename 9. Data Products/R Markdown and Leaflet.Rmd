@@ -18,9 +18,9 @@ library(dplyr)
 
 This web page is the assignment for week 2 of the Developing Data Products course. It was created using R Markdown and below is a map created with the **leaflet** package.
 
-## Map
+The map below will show the capitals of all countries in Europe, with the latitude and longitude taken from the following [site](http://techslides.com/list-of-countries-and-capitals). Then, we remove the capitals with less than 100,000 inhabitants, using data from [Wikipedia](https://en.wikipedia.org/wiki/List_of_national_capitals_by_population). 
 
-The map below will show the capitals of all countries in Europe, as taken from the following [link](http://techslides.com/list-of-countries-and-capitals). Then, we remove those capitals with less than 100,000 inhabitants, using data from [here](https://en.wikipedia.org/wiki/List_of_national_capitals_by_population). 
+Finally, they are plotted with the circles' radius being a function of the population for any given capital city. 
 
 ```{r read location data, warning=FALSE}
 # read data
