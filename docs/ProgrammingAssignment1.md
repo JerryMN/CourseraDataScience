@@ -1,6 +1,7 @@
 ---
 layout: page
-title: "Programming Assignment 1"
+title: "ProgrammingAssignment1"
+permalink: /R_Programming/
 ---
 
 ## **Introduction**
