@@ -1,11 +1,9 @@
 # README
 
-Here are the links to all (or most) of the assignments made during these courses. The repo is https://github.com/JerryMN/CourseraDataScience
+This is my repository for the Johns Hopkins Data Science Specialization course on Coursera.
 
-# 2. R Programming
+Here is all the work I have developed throughout the specialization. I have tried my best to group them into the adequate folders and adding a description, but it may or may not be complete. 
 
-[Programming Assignment 1](https://jerrymn.github.io/CourseraDataScience/2.%20R%20Programming/ProgrammingAssignment1/README.html)
+The website where you can find the links (instead of browsing the folders awkardly here) is https://github.com/JerryMN/CourseraDataScience.
 
-Programming Assignment 2
 
-Programming Assignment 3
