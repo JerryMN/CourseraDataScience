@@ -1,6 +1,6 @@
 layout: page
 title: "Programming Assignment 1"
-permalink: /R_Programming/ProgrammingAssignment1/
+permalink: /R_Programming/
 
 
 ## **Introduction**
