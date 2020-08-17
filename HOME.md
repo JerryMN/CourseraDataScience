@@ -1,5 +1,3 @@
-layout: page
-title: "HOME"
 
 
 Below you can find links for all (or most) of the descriptions for the assignments and/or projects made during this specialization.
