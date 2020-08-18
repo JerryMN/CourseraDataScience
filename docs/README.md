@@ -9,3 +9,5 @@ Here is all the work I have developed throughout the specialization. I have trie
 - [Programming Assignment 1](https://jerrymn.github.io/CourseraDataScience/R_Programming/ProgrammingAssignment1/)
 
 - [Programming Assignment 2](https://jerrymn.github.io/CourseraDataScience/R_Programming/ProgrammingAssignment2/)
+
+- [Programming Assignment 3](https://jerrymn.github.io/CourseraDataScience/R_Programming/ProgrammingAssignment3/)
