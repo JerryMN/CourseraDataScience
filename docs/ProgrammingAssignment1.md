@@ -1,6 +1,6 @@
 ---
 title: "ProgrammingAssignment1"
-permalink: /R_Programming/
+permalink: /R_Programming/ProgrammingAssignment1/
 ---
 
 ## **Introduction**
