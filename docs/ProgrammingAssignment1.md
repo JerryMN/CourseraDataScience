@@ -1,5 +1,4 @@
 ---
-layout: page
 title: "ProgrammingAssignment1"
 permalink: /R_Programming/
 ---
