@@ -1,11 +1,7 @@
 ---
 title: "ProgrammingAssignment3"
-output: 
-    html_document:
-        keep_md: true
+permalink: /R_Programming/ProgrammingAssignment3/
 ---
-
-
 
 # **Introduction**
 
