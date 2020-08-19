@@ -1,0 +1,50 @@
+---
+title: "R Markdown and Plotly"
+author: "Gerardo Mondragón"
+date: "2020-08-19"
+output: 
+    ioslides_presentation:
+        keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+library(readr)
+library(plotly)
+```
+
+## Overview
+
+This presentation is the assignment for week 3 of the Developing Data Products course. It was created using R Markdown and next in the slides is a plot created with the **plotly** package.
+
+## Description of the map
+
+The plot shows the capitals of all countries grouped by continent (x-axis) and population (y-axis), using data from [here](https://en.wikipedia.org/wiki/List_of_national_capitals_by_population) and [here](http://techslides.com/list-of-countries-and-capitals).
+
+```{r read_data}
+country_capitals <- read_csv("country-capitals.csv", 
+    col_types = cols(CapitalLatitude = col_skip(), 
+        CapitalLongitude = col_skip(), CountryCode = col_skip()))
+names(country_capitals) <- c("Country", "Capital", "Continent")
+
+capital_population <- read_csv("capital-population.csv", 
+    col_types = cols(`% ofcountry'spopulation` = col_skip(), 
+        Population = col_number(), Rank = col_skip(), 
+        Year = col_skip(), `Country/Territory` = col_skip()))
+names(capital_population) <- c("Capital", "Population")
+```
+
+```{r process_data}
+capitals <- merge(country_capitals, capital_population, by = "Capital")
+capitals$Continent <- sub("Central America", "North America", capitals$Continent)
+capitals$Continent <- as.factor(capitals$Continent)
+```
+
+## Plot
+
+```{r plot, echo=FALSE, warning=FALSE}
+fig <- plot_ly(capitals, x = ~Country, y = ~Population, mode = "markers", type = "scatter", color = ~Continent)
+fig <- fig %>% layout(xaxis = list(title = "Country", showticklabels = F), legend = list(orientation = "h", title=list(text = "<b> Continent </b>")))
+fig
+```
