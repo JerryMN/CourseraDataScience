@@ -2,9 +2,7 @@
 title: "R Markdown and Plotly"
 author: "Gerardo Mondragón"
 date: "2020-08-19"
-output: 
-    ioslides_presentation:
-        keep_md: true
+output: ioslides_presentation
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +10,49 @@ knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 library(readr)
 library(plotly)
+
+plotly_manager <- function(
+  postdir = knitr::opts_chunk$get("plotly.savepath"), 
+  basedir = knitr::opts_chunk$get("proj.basedir"),
+  libdirname = "js_files/",
+  hrefFilter = function(x) paste0("/", x)) {
+  
+  last_label <- tail(knitr::all_labels(), n=1)[[1]]
+  deps <- list()
+  libdir <- paste0(postdir, libdirname)
+  
+  render_deps <- function(l) {
+    if (length(l) > 0)
+      dir.create(libdir, showWarnings = FALSE, recursive = TRUE)
+    l <- lapply(unique(l), function(dep) {
+      dep <- htmltools::copyDependencyToDir(dep, libdir, FALSE)
+      dep <- htmltools::makeDependencyRelative(dep, basedir, FALSE)
+      dep } )
+    l <- htmltools::renderDependencies(l, hrefFilter=hrefFilter)
+    htmltools::htmlPreserve(l)
+  }
+  
+  add_deps_from_plot <- function(p) {
+    deps <<- append(deps, htmltools::renderTags(p)$dependencies)
+  }
+  
+  hook <- function(before, options) {
+    if (options$label == last_label & !before)
+      render_deps(deps)
+  }
+  
+  plot_plotly <- function(p) {
+    add_deps_from_plot(p)
+    htmltools::tagList(list(plotly::as_widget(p)))
+  }
+  
+  knitr::knit_hooks$set(._plotly_checker = hook)
+  knitr::opts_chunk$set(._plotly_checker = TRUE)
+  
+  plot_plotly
+}
 ```
+
 
 ## Overview
 
@@ -44,7 +84,8 @@ capitals$Continent <- as.factor(capitals$Continent)
 ## Plot
 
 ```{r plot, echo=FALSE, warning=FALSE}
+plot_plotly <- plotly_manager()
 fig <- plot_ly(capitals, x = ~Country, y = ~Population, mode = "markers", type = "scatter", color = ~Continent)
 fig <- fig %>% layout(xaxis = list(title = "Country", showticklabels = F), legend = list(orientation = "h", title=list(text = "<b> Continent </b>")))
-fig
+plot_plotly(fig)
 ```
