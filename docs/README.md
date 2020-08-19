@@ -11,3 +11,37 @@ Here is all the work I have developed throughout the specialization. I have trie
 - [Programming Assignment 2](https://jerrymn.github.io/CourseraDataScience/R_Programming/ProgrammingAssignment2/)
 
 - [Programming Assignment 3](https://jerrymn.github.io/CourseraDataScience/R_Programming/ProgrammingAssignment3/)
+
+# Getting and Cleaning Data
+
+tba
+
+# Exploratory Data Analysis
+
+tba
+
+# Reproducible Research
+
+tba
+
+# Statistical Inference
+
+tba
+
+# Regression Models
+
+tba
+
+# Practical Machine Learning
+
+tba
+
+# Developing Data Products
+
+- R Markdown and Leaflet
+
+- [R Markdown and Plotly](https://jerrymn.github.io/CourseraDataScience/DataProducts/Plotly/)
+
+# Capstone Project
+
+tba
