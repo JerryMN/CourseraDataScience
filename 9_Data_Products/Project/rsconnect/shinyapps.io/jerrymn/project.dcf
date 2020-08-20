@@ -1,0 +1,12 @@
+name: project
+title:
+username:
+account: jerrymn
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2687653
+bundleId: 3536088
+url: https://jerrymn.shinyapps.io/project/
+when: 1597887388.78631
+asMultiple: FALSE
+asStatic: FALSE
