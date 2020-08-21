@@ -1,0 +1,254 @@
+---
+title: "Data Science Capstone Project Milestone"
+author: "Gerardo Mondragón"
+date: "8/20/2020"
+output: 
+    html_document:
+        keep_md: true
+        toc: yes
+        toc_float: yes
+        df_print: paged
+        css: css/mycss.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(message = F)
+```
+
+## Overview
+
+This milestone report provides information on the preprocessing of the data used for this Capstone Project, starting from downloading the dataset and ending at an exploratory analysis.
+
+## Preparing the Environment
+
+These are the libraries we will be using for this task.
+
+```{r libraries}
+library(tm)
+library(RWeka)
+library(stringi)
+library(kableExtra)
+library(stringr)
+library(ggplot2)
+library(dplyr)
+```
+
+## Downloading the Data
+
+Download and unzip the data if it is not already present. 
+
+```{r download}
+# Main dataset
+url <- "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
+if(!file.exists("data")){
+    dir.create("data")
+}
+
+if(!file.exists("data/final/en_US")){
+    tempFile <- tempfile()
+    download.file(url, tempFile)
+    unzip(tempFile, exdir = "data")
+    unlink(tempFile)
+}
+
+# Profanity list
+url <- "http://www.idevelopment.info/data/DataScience/uploads/full-list-of-bad-words_text-file_2018_07_30.zip"
+if(!file.exists("data/full-list-of-bad-words_text-file_2018_07_30.txt")){
+    tempFile <- tempfile()
+    download.file(url, tempFile)
+    unzip(tempFile, exdir = "data")
+    unlink(tempFile)
+}
+
+rm(url)
+```
+
+## Reading the Data In
+
+```{r reading, cache=T}
+blogsFN <- "data/final/en_US/en_US.blogs.txt"
+con <- file(blogsFN, open = "rb")
+blogs <- readLines(con, encoding = "UTF-8", skipNul = TRUE)
+close(con)
+
+newsFN <- "data/final/en_US/en_US.news.txt"
+con <- file(newsFN, open = "rb")
+news <- readLines(con, encoding = "UTF-8", skipNul = TRUE)
+close(con)
+
+twitterFN <- "data/final/en_US/en_US.twitter.txt"
+con <- file(twitterFN, open = "rb")
+twitter <- readLines(con, encoding = "UTF-8", skipNul = TRUE)
+close(con)
+
+profanitiesFN <- "data/full-list-of-bad-words_text-file_2018_07_30.txt"
+con <- file(profanitiesFN, open = "r")
+profanities <- readLines(con, encoding = "UTF-8", skipNul = TRUE)
+close(con)
+
+rm(con)
+```
+
+## Basic Data Summary
+
+Before cleaning the data and cleaning the corpus, below you can find a basic summary of each of the three text files. To see the full code, please see the appendix section [A.1 Basic Data Summary](#a.1-basic-data-summary).
+
+```{r data_summary, echo = F, cache = T}
+# Calculate file size in MB
+fileSize <- round(file.info(c(blogsFN,
+                              newsFN,
+                              twitterFN))$size / 1024^2)
+
+# Calculate number of lines, of characters and of words
+numLines <- sapply(list(blogs, news, twitter), length)
+numChars <- sapply(list(nchar(blogs), nchar(news), nchar(twitter)), sum)
+numWords <- sapply(list(blogs, news, twitter), stri_stats_latex)[4, ]
+
+# Create a table
+summary <- data.frame(
+    File = c("en_US.blogs.txt", "en_US.news.txt", "en_US.twitter.txt"),
+    Size = paste(fileSize, " MB"),
+    Lines = numLines,
+    Characters = numChars,
+    Words = numWords)
+
+kable(summary,
+      row.names = FALSE,
+      align = c("l", rep("r", 7)),
+      caption = "") %>% kable_styling(position = "left")
+```
+
+## Data Preprocessing
+
+For efficiency purposes, we will subset 1% of each dataset to demonstrate the exploratory analysis and other procedures.
+
+```{r sample}
+blogsSample <- sample(blogs, length(blogs)*0.01)
+newsSample <- sample(news, length(news)*0.01)
+twitterSample <- sample(twitter, length(twitter)*0.01)
+
+# Remove non-english characters
+blogsSample <- sapply(blogsSample, function(row) iconv(row, "latin1", "ASCII", sub = ""))
+newsSample <- sapply(newsSample, function(row) iconv(row, "latin1", "ASCII", sub = ""))
+twitterSample <- sapply(twitterSample, function(row) iconv(row, "latin1", "ASCII", sub = ""))
+profanities <- sapply(profanities, function(row) iconv(row, "latin1", "ASCII", sub = ""))
+```
+
+And then we can combine these three samples into a single one.
+
+```{r merge_sample, echo = F}
+textSample <- c(blogsSample, newsSample, twitterSample)
+rm(blogsSample, newsSample, twitterSample)
+```
+
+The next step is to construct a corpus from the files. To this end we define a function that will do the heavy lifting. The code for this function can be found in [A.2 Build Corpus Function](#a.2-build-corpus-function).
+
+```{r corpus_fun, echo = F}
+buildCorpus <- function(dataset){
+    textSample <- VCorpus(VectorSource(textSample))
+    # Define function to add spaces
+    addSpace <- content_transformer(function(x, pattern) gsub(pattern, " ", x))
+    
+    # Remove URLs, Twitter usernames and emails using the function above
+    textSample <- tm_map(textSample, addSpace, "(f|ht)tp(s?)://(.*)[.][a-z]+")
+    textSample <- tm_map(textSample, addSpace, "@[^\\s]+")
+    textSample <- tm_map(textSample, addSpace, "\\b[A-Z a-z 0-9._ - ]*[@](.*?)[.]{1,3} \\b")
+    
+    # Remove profane words
+    textSample <- tm_map(textSample, removeWords, profanities)
+    # Make all lowercase, remove special characters, etc. 
+    textSample <- tm_map(textSample, tolower)
+    textSample <- tm_map(textSample, removeWords, stopwords("english"))
+    textSample <- tm_map(textSample, removePunctuation)
+    textSample <- tm_map(textSample, removeNumbers)
+    textSample <- tm_map(textSample, stripWhitespace)
+    textSample <- tm_map(textSample, PlainTextDocument)
+    
+    return(textSample)
+}
+```
+
+Now we use this function to build the corpus.
+
+```{r build_corpus, cache = T}
+# Create corpus and save it
+corpus <- buildCorpus(textSample)
+saveRDS(corpus, file = "data/final/en_US/en_US.corpus.rds")
+corpusText <- data.frame(text = unlist(sapply(corpus, '[', "content")), stringsAsFactors = FALSE)
+con <- file("data/final/en_US/en_US.corpus.txt", open = "w")
+writeLines(corpusText$text, con)
+close(con)
+```
+
+Next up we will plot the most common single, pairs and trios of words, so we need Term Document Matrices. To create these, we define our tokenizer functions.
+
+```{r tokenize, cache=T}
+# Defining tokenizing functions
+unigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min=1, max=1))
+bigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min=2, max=2))
+trigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min=3, max=3))
+
+# Creating matrices and counting frequencies
+unigramMatrix <- TermDocumentMatrix(corpus, control = list(tokenize = unigramTokenizer))
+unigramFreq <- sort(rowSums(as.matrix(removeSparseTerms(unigramMatrix, 0.99))), decreasing = T)
+unigramFreq <- data.frame(word = names(unigramFreq), freq = unigramFreq)
+
+bigramMatrix <- TermDocumentMatrix(corpus, control = list(tokenize = bigramTokenizer))
+bigramFreq <- sort(rowSums(as.matrix(removeSparseTerms(bigramMatrix, 0.999))), decreasing = T)
+bigramFreq <- data.frame(word = names(bigramFreq), freq = bigramFreq)
+
+trigramMatrix <- TermDocumentMatrix(corpus, control = list(tokenize = trigramTokenizer))
+trigramFreq <- sort(rowSums(as.matrix(removeSparseTerms(trigramMatrix, 0.9999))), decreasing = T)
+trigramFreq <- data.frame(word = names(trigramFreq), freq = trigramFreq)
+```
+
+## Exploratory Data Analysis
+
+Let's see a graph of the most common unigrams, bigrams and trigrams. The ggplot code is at [A.3 Plotting Code](#a.3-plotting-code).
+
+```{r plot_tdm, echo=F}
+ggplot(unigramFreq[1:15, ], aes(x = reorder(word, freq), y = freq)) +
+    geom_bar(stat = "identity") +
+    geom_text(aes(label = freq), hjust = -0.2, size = 3) +
+    labs(x = "", y = "Frequency", title = "Most Common Unigrams") +
+    coord_flip()
+
+ggplot(bigramFreq[1:15, ], aes(x = reorder(word, freq), y = freq)) +
+    geom_bar(stat = "identity") +
+    geom_text(aes(label = freq), hjust = -0.2, size = 3) +
+    labs(x = "", y = "Frequency", title = "Most Common Bigrams") +
+    coord_flip()
+
+ggplot(trigramFreq[1:15, ], aes(x = reorder(word, freq), y = freq)) +
+    geom_bar(stat = "identity") +
+    geom_text(aes(label = freq), hjust = -0.5, size = 3) +
+    labs(x = "", y = "Frequency", title = "Most Common Trigrams") +
+    coord_flip()
+```
+
+## Final Thoughts
+
+This first milestone serves as a great starting point towards reaching my objective for the final submission. Of course, building the Shiny app poses its own challenge as it has to be understandable for the end user. I think that, to this end, it will be easiest to take a single input box as input and output a couple of predictions of the next word. Obviously the algorithm will be trained using more of the dataset as used here, since this was just an exploratory analysis and demonstration.
+
+As for strategy, I think that searching for a match in a higher n-gram, and falling back to n-1-grams will prove to be most accurate and efficient, since higher n-grams have fewer word combinations and also fewer frequencies, thus allowing for a more accurate prediction, and due to their smaller size, quicker predictions too.
+
+## Appendix
+
+### A.1 Basic Data Summary
+
+```{r data_summary_appendix, ref.label = "data_summary", eval = F}
+```
+
+### A.2 Build Corpus Function
+
+```{r build_corpus_appendix, ref.label = "corpus_fun", eval = F}
+```
+
+### A.3 Plotting Code
+
+```{r plot_code_appendix, ref.label = "plot_tdm", eval = F}
+```
+
+
