@@ -3,3 +3,5 @@
 This is my repository for the Johns Hopkins Data Science Specialization course on Coursera.
 
 Here is all the work I have developed throughout the specialization. I have tried my best to group them and add a description, but it may or may not be complete.
+
+For easier browsing and visualization, please visit https://jerrymn.github.io/CourseraDataScience/
