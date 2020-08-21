@@ -24,7 +24,7 @@ Here is all the work I have developed throughout the specialization. I have trie
 
 # Reproducible Research
 
-tba
+- [Project 1](https://jerrymn.github.io/CourseraDataScience/ReproducibleResearch/Project1/)
 
 # Statistical Inference
 
