@@ -1,0 +1,13 @@
+name: CapitalsPopulation
+title: CapitalsPopulation
+username:
+account: jerrymn
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2688253
+bundleId: 3536430
+url: https://jerrymn.shinyapps.io/CapitalsPopulation/
+when: 1597899294.54076
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: MyShinyPresentation.Rmd
