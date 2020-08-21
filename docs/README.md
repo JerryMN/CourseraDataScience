@@ -32,6 +32,8 @@ Here is all the work I have developed throughout the specialization. I have trie
 
 - [Part 1 of the Project](https://jerrymn.github.io/CourseraDataScience/StatisticalInference/Project1/)
 
+- [Part 2 of the Project](https://jerrymn.github.io/CourseraDataScience/StatisticalInference/Project2/)
+
 # Regression Models
 
 tba
