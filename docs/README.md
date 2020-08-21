@@ -30,7 +30,7 @@ Here is all the work I have developed throughout the specialization. I have trie
 
 # Statistical Inference
 
-tba
+- [Part 1 of the Project](https://jerrymn.github.io/CourseraDataScience/StatisticalInference/Project1/)
 
 # Regression Models
 
