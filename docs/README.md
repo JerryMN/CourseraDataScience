@@ -18,7 +18,7 @@ Here is all the work I have developed throughout the specialization. I have trie
 
 # Exploratory Data Analysis
 
-tba
+- [Project 1](https://jerrymn.github.io/CourseraDataScience/ExploratoryDataAnalysis/Project1/)
 
 # Reproducible Research
 
