@@ -7,10 +7,12 @@ output:
         keep_md: true
 ---
 
-## Summary
+# **Introduction**
 This report aims to solve questions concerning the miles per gallon performance and type of transmission. Specifically, is an automatic or manual transmission better for MPG? This difference will then be quantified. We will use the mtcars dataset in R to answer these questions. 
 
 We can conclude that a manual transmission will yield more miles per gallon of fuel. However, the MPG variable is confounded by another two variables in the dataset: weight (a heavier vehicle consumes more fuel, thus less miles per gallon), and number of cylinders in the engine (more cylinders means using more fuel).
+
+# **Assignment**
 
 ## Data Analysis
 We will first load the data and other packages.

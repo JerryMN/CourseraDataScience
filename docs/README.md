@@ -36,7 +36,7 @@ Here is all the work I have developed throughout the specialization. I have trie
 
 # Regression Models
 
-tba
+- [Course Project](https://jerrymn.github.io/CourseraDataScience/RegressionModels/CourseProject/)
 
 # Practical Machine Learning
 
