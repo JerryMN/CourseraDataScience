@@ -20,6 +20,8 @@ Here is all the work I have developed throughout the specialization. I have trie
 
 - [Project 1](https://jerrymn.github.io/CourseraDataScience/ExploratoryDataAnalysis/Project1/)
 
+- [Project 2](https://jerrymn.github.io/CourseraDataScience/ExploratoryDataAnalysis/Project2/)
+
 # Reproducible Research
 
 tba
