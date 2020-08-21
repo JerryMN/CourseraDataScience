@@ -369,55 +369,33 @@ summary {
 </div>
 
 
-<div id="synopsis" class="section level1">
-<h1><strong>Synopsis</strong></h1>
+<div id="introduction" class="section level1">
+<h1><strong>Introduction</strong></h1>
 <p>This project explores the United States National Oceanic and Atmospheric Administration’s (NOAA) storm database. It contains information of major storms and weather events ocurring in the U.S. These events, not surprisingly, can have big health and economic impacts for small communities and big cities alike. Many events can result in property damage, injuries or even death.</p>
 <p>This analysis concludes that it is tornadoes, that have the greatest health impact (measured by injuries and fatalities), while floods are the ones that cause the most economic damage (measured by property damage and crop damage).</p>
-</div>
-<div id="data-processing" class="section level1">
-<h1><strong>Data Processing</strong></h1>
-<div id="preparing-the-environment" class="section level2">
-<h2>Preparing the environment</h2>
-<p>In order to facilitate working with the datasets, the following libraries will be used:</p>
-<pre class="r"><code>library(ggplot2)
-library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(plyr)</code></pre>
-<pre><code>## ------------------------------------------------------------------------------</code></pre>
-<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)</code></pre>
-<pre><code>## ------------------------------------------------------------------------------</code></pre>
-<pre><code>## 
-## Attaching package: &#39;plyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize</code></pre>
-</div>
-<div id="data" class="section level2">
-<h2>Data</h2>
-<p>The data for this project comes in the form of a comma-separated-value file compressed via the bzip2 algorithm to reduce its size. You can download the file from <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2">here</a>.</p>
-<p>Documentation on this data can be found <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf">here</a> and <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2FNCDC%20Storm%20Events-FAQ%20Page.pdf">here</a>.</p>
-<p>The events in the database start in the year 1950 and end in November 2011. In the earlier years of the database there are generally fewer events recorded, most likely due to a lack of good records. More recent years should be considered more complete.</p>
-</div>
-<div id="assignment" class="section level2">
-<h2>Assignment</h2>
 <p>The basic goal of this assignment is to explore the NOAA Storm Database and answer some basic questions about severe weather events.</p>
 <ul>
 <li>Across the United States, which types of events are most harmful with respect to population health?</li>
 <li>Across the United States, which types of events have the greatest economic consequences?</li>
 </ul>
 </div>
-<div id="loading-the-data" class="section level2">
-<h2>Loading the data</h2>
+<div id="assignment" class="section level1">
+<h1><strong>Assignment</strong></h1>
+<div id="preparing-the-environment" class="section level2">
+<h2>Preparing the environment</h2>
+<p>In order to facilitate working with the datasets, the following libraries will be used:</p>
+<pre class="r"><code>library(ggplot2)
+library(plyr)
+library(dplyr)</code></pre>
+</div>
+<div id="data-information" class="section level2">
+<h2>Data Information</h2>
+<p>The data for this project comes in the form of a comma-separated-value file compressed via the bzip2 algorithm to reduce its size. You can download the file from <a href="https://github.com/JerryMN/CourseraDataScience/raw/gh-pages/5_Reproducible_Research/Project%202/repdata_data_StormData.csv.bz2">here</a>.</p>
+<p>Documentation on this data can be found <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf">here</a> and <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2FNCDC%20Storm%20Events-FAQ%20Page.pdf">here</a>.</p>
+<p>The events in the database start in the year 1950 and end in November 2011. In the earlier years of the database there are generally fewer events recorded, most likely due to a lack of good records. More recent years should be considered more complete.</p>
+</div>
+<div id="downloading-files" class="section level2">
+<h2>Downloading files</h2>
 <p>The data will be automatically downloaded and read if it does not already exist.</p>
 <pre class="r"><code>if(!exists(&quot;storm_data&quot;)){
         if(!file.exists(&quot;repdata_data_StormData.csv.bz2&quot;)){
@@ -525,11 +503,10 @@ head(mydata)</code></pre>
 ## 6          0        6    2500       0 TORNADO</code></pre>
 <p>We now have the <strong>PROPDMG</strong> and <strong>CROPDMG</strong> columns that have the actual damage.</p>
 </div>
-</div>
-<div id="analysis" class="section level1">
-<h1><strong>Analysis</strong></h1>
-<div id="aggregates" class="section level2">
-<h2>Aggregates</h2>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="aggregates" class="section level3">
+<h3>Aggregates</h3>
 <p>We create a table of fatalities and injuries by event</p>
 <pre class="r"><code>agg_fatalities &lt;- ddply(mydata, &quot;EVENT&quot;, summarize, TOTAL = sum(FATALITIES))
 agg_fatalities$Type &lt;- &quot;Fatalities&quot;
@@ -588,10 +565,10 @@ agg_eco</code></pre>
 ## 20  WINTER     47444000     Crop</code></pre>
 </div>
 </div>
-<div id="results" class="section level1">
-<h1><strong>Results</strong></h1>
-<div id="across-the-united-states-which-types-of-events-are-most-harmful-with-respect-to-population-health" class="section level2">
-<h2>Across the United States, which types of events are most harmful with respect to population health?</h2>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<div id="across-the-united-states-which-types-of-events-are-most-harmful-with-respect-to-population-health" class="section level3">
+<h3>Across the United States, which types of events are most harmful with respect to population health?</h3>
 <pre class="r"><code>ggplot(agg_health, aes(EVENT, TOTAL, fill = Type)) + geom_col(position = &quot;dodge&quot;) +
         labs(x = &quot;Event&quot;, y = &quot;Count&quot;, title = &quot;The Impact of Weather Events on Public Health&quot;, 
              fill = &quot;Health risk&quot;) + coord_flip() + theme(legend.position = &quot;bottom&quot;) +
@@ -599,8 +576,8 @@ agg_eco</code></pre>
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAMAAABNUi8GAAABd1BMVEUAAAAAADoAAGYAOjoAOmYAOpAAZrYAv8QzMzM6AAA6ADo6AGY6OgA6OmY6OpA6ZmY6ZpA6ZrY6kJA6kLY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmAGZmOgBmOmZmZmZmkJBmkNtmtrZmtttmtv9uTU1uTW5uTY5ubo5ubqtujqtujshuq8huq+SOTU2OTW6OTY6Obk2Obm6ObquOjm6Ojo6OjsiOyOSOyP+QOgCQOjqQZgCQZjqQZmaQkDqQkGaQkLaQtpCQttuQ27aQ29uQ2/+rbk2rbm6rbo6rjk2rjqurq46ryKur5Mir5OSr5P+2ZgC2Zjq2kDq2tpC2ttu225C229u22/+2/7a2///Ijk3Ijm7IyI7I5KvI/+TI///bkDrbkGbbtmbbtpDb27bb29vb/7bb/9vb///kq27kq47k5Kvk/8jk/+Tk///r6+vy8vL4dm3/tmb/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T////mu0zZAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAY90lEQVR4nO2dC38bx3VHQVmiCufhpCElkbbaNCZtqwpk16pbsOkrTimprVyySVNVtGMiSmsLTcNGAFzwsR++c2dmHwB2sU8Cl9D5/xICxO7ZnV0czMyuxYtWQIjitJbdAELmBUGJ6iAoUR0EJaqDoER1EJSoDoIS1UFQojqXKejpdsvn2vPzvRsvU1fKXJCR0R89n33xX1utddnK4dq+/Npr2W1mbVo2kbfbXtj09Srtmb/R658mXzzdDnchbUppV+/ac7/iRupWLVLkmK5krpyg4duVzCAUadDakYfDlhU1futnN9GYoGntyd3oTuLFZgQtckxXMpc9xIcn7ZIF9e+4e7NPt39o38vBhAiTm8gVtKh3pQR1675oJfc9KeicPSDoZSQh6Fd3W2t/Is+/udtqfedZYoVRe+NF2ywbtFvfeylvhHly3Q7WL77d8tAL+9L5nul/wvdJtnP9mXSY0kfHexus/cOevOn2nY135rflNpHWnvO99V7rmmtYwjv31HoUr3njF9+ONxac/7XZ9LvRQYcNi1ab2JJpcDiimD3KhuVwnyV70Bfh8ScpJ+jM8Qj29cwxrUwWJ+j1u35wG7Xlydp+vMKo/ZZ5be2nbTuknm7Lb3aFXjQiDhyTFHQQbicW1L2ZvRsvow4l3lm4rVDQ2fac773RDju3hKCjtnTE0h0n1pza2MTAPZhZzS/IEPSNdri6F3SQPEGTgs4eT1LQ6JhWJ4sTVN76Xxv/zvekr/lNez1ewZz1d83AZ8wbtW+8NFPX9ZfnP7erSn82alto36yxkTDHbPFdfz0Uj+Uik7zr8oq8ofHO4m354XC2Pea1aBANp4veGy9VYk1zUdZr+Y2N2t9/6TY92bDEam6j4RC/HiQFbf0gPFwnaHywE02xXXXK8SSG+PCYViiLE1TeHBknzXguL4SiOUHXZZlZU36zT6wR5ud//eJv2q0ISnChEHLhHgsqUoqk8uj6vMTO/Lb8mznbHvea300saNAzP9LWtKO+E/SNH/57dMhxwxKrTW80Kah75npVP+NJnsKkoGnHkxB0cncrkcVeJLnOLX7rg2gOGp7YQxHUnmHRwg1oVtDpYTJ8aTAhqPADWePQDfOJnUXbSlxQTLYneZGRvPaR5skuptcU2q0ok4zW955NNyyxmtuo4/0sNhJ0wx9uLOjEIJ0c4tOOZ+oiKd7dSkS1oGb0e+vv/+2r7RKCGjsPZU9mtcP1ILGzeFulBZXXDydsnxY0+I1M/jwyR9B4o7UFjY8HQetkVtCp058maDjmuVVlyCw6xJtXf2TfcP8Y7yze1tSbGa+SJaiR52fSuOk1E4Ka/OdPfCuSQ3ymoG4GI8fsjnveEJ8QNO14ELROZgU18/xPg+CbcL6XJmh41WBO/0u5r+KvG0Zibi++/E+5SDKvvvXmfvwY7yzelt1EWnsyBR21/1j2ML2mE9R+QH5gps8/j8aE+CJpjqAte5PKXiSZi5+Zi6TRdtiYpKBpx+MEnTimFcriBQ2HqY14hWlB7X0Xd1lqE955EUt6s7eZJu7I9/xIe+huGEU7S2yr5+4ZzrRnQtDwwkS2Zli70ak1naDxbaaQTtxmyhbUbuv63eiumu8B49tMMzen7Fwg5XicoJPHtDpZgqDByEzY3ng3scLMHFTu2Mslh73j/akdDV+03a3w07vuP7v77cgN7glBB/4uS/gY7Szelmzi65T2ZAoa3SmaXNPStj32Rv33I3gU36jPFDT4tTnGr90c1Bzud6dv1Mf3/Sdv1M8ej0Wmj2llovBfM63YfRJSKwhKVAdBieogKFEdhYISEgdBieogKFEdBCWqg6BEdRCUqM5lCvq/mZmzaP5CwNcFRFBA1SCCAqoGERRQNYiggKrB5Qp6M07TBwa4GiCCAqoGERRQNYiggKpBBAVUDSIooGoQQQFVgwgKqBpEUEDVIIICqgYRFFA1iKCAqkEEBVQNlhP0qBsEw035sTV+/3i8a54F4/e/fLQpufPbXXm4dTC2j7ePERSwNlhO0H7H/P8T+dGxgoqE5knyRxA+9u+cICjgYgUd3zu5ePxUfhyIoO9/sZUtaPgbggLWAMsJevbR8dnD3z05No9W0GMz5s/vQf/AJHt7r14V2i0hxQSVnvO+mYmaH07Qs4cnCUHt3PPOSfgYUtmfkVevLu2TB7gaYDlBg3633w2GHTMXdYK6yWhKDzq8dRBB2U1AUMCchSUFHW59fhCM78sPJ6iZkqYP8f0iV/EICpizsKSgZx/fOzFSfnAcChpMX8qHgl482kJQwNpgSUGddkfu4t1fDN2enINudv1V/G4HQQEXLGilZDcBQQFzFiIooGoQQQFVgwgKqBpEUEDVIIICqgYRFFA1iKCAqkEEBVQNLldQjWcEUBWIoICqQQQFVA0iKKBqcLmC3iyfSz8jgKpABAVUDSIooGoQQQFVgwgKqBpEUEDVIIICqgYRFFA1iKCAqkEEBVQNIiigahBBAVWDtQRNL7h87CqMdBEUsD5YS9CMgsu29M3Zg8jQ7CYgKGDOwlqCZhRc9rWZ7pUqAY6ggGkLawmaUXDZCXr2oVQIzauwbFNl3+T1SiVBMwouO0HNQr9a9mfEC3oZnzzA1QBrCZpRcDnZgyIoYC2wnqDpBZedoMMCX0ODoIA5C+sJml5wufhVPIIC5iysJ2h6weXi90ERFDBnYT1BiyW7CQgKmLMQQQFVgwgKqBpEUEDVIIICqgYRFFA1iKCAqkEEBVQNIiigahBBAVWDyxVU4xkBVAUiKKBqEEEBVYPLFbTC3ySRVQyCEtVBUKI6CEpUB0GJ6iAoUR0EJaqDoER1EJSoDoIS1UFQojoISlSnhqAXj6RMyOadk6DvyoW4uiG3j4OoorIvFJYoKNK/vArLZBVTrwf1NW2Mo2cPOvFvUUXlIBhKmeW4JFO4KoKSYmlA0LOPjoNk/eREReXg4vFnD0+CqLBytCqCkmJpQFBXTfHiUTfuQcOKyiKlf2ZH+2jVoGCF5czMaRR5vZIv6JZ9ftR1U807tsd0FZXlyxTM4qiwcrSq57N70DxBM0GN/7QW8DLAkoL6HnR468C9bCsq2+uo23Fh5WhVBAVcmKCTc9D+7eMgrqgs3+dx1I0KKxefgyIoYM7CwoJaJ6OreKlcG1VU7ktXab/LK7yK96siKODiBA2G/j6ou1jf7YTefvnEDe1P4/ugw3IVlhEUMGthEUHrJrsJCAqYsxBBAVWDCAqoGkRQQNUgggKqBhEUUDWIoICqQQQFVA0iKKBqEEEBVYPLFVTjGQFUBSIooGoQQQFVg8sVtMpfqlz2GQFUBSIooGoQQQFVgwgKqBpEUEDVIIICqgYRFFA1iKCAqkEEBVQNIiigahBBAVWDCAqoGkRQQNVgFUHPHkgxu3m1waW83dHt2gVsl3JGAFWBFQSNqnxn1gZ/70/NKx/Xr7C8lDMCqAqsIGjiaxOyaoP/+UEw/gRBAeuDFQS9eGRLfAdzaoN/0Q3++6n9Na8EePHdktc6pS6ShpubUmI5uzb4r+5fPPlVoQK2l/bJA1wNsJKg4uZ7B3Nqg3/5T//zF8UqLF/agQGuBlhBUGfkUXdebfDP/7mDoIANgBUEtVfx8UVSam1w05MiKGADYAVB7X3QeA6aWhs8uqhHUMBaYBVByya7CQgKmLMQQQFVgwgKqBpEUEDVIIICqgYRFFA1iKCAqkEEBVQNIiiganC5gmo8I4CqQAQFVA0iKKBqEEEBVYPLFXTu3x5dtVMJeBkgggKqBhEUUDWIoICqQQQFVA0iKKBqEEEBVYMICqgaRFBA1SCCAqoGERRQNYiggKrByoK6MsvBeLcb+KIivtCyFG0ayhNf9g5BAWuAaYKebu/Iw+Da83l+ujLL412p9C2ChoWW+x2z4BP50UFQwGUJGpZZHr//xZb9LS5yd+/k4vFT+XGAoIDNC9prhVnP9jMqs2yMNGO61LMLCy0bU88e/u6JNzanwvKcPRCSSEoPmhNXZln6zocnImhYaNn0nOP7UnD5frhm9mdk3t/MXbnPOuBlgGmCFs74PVsFtN+JBDU9aNDv9rvBsBNNQREUsDqYKuiobYf4eXPQsMyyCGqmnIk5qFn0uelZ738eTkERFLA6mCbo+d682adLWGbZXizZS/mw0HJw9vG9EyPtB2H9WgQFrA6mCVpoDurLLMdVwMNCy7YKuOlct6JVs5uAoIA5C9N70CIXScWT3QQEBcxZmCbo/DugCAq4QDBN0NPtVu5FEoICLgRME7TpZDcBQQFzFiIooGowXdBeq7XTu/ESQQGXDaYKenjjq+2dIndDERTwksE0QU+3d+RWaGPX8tlNQFDAnIUICqgaTBM06MkQf7q90YyfCApYHUwVNBjIbdCm/JzTCI1nBFAVmC5os1nKgQGuBoiggKrBNEGbm33mCZr150gNHBjgaoBpgto/S2rwHzRlNwFBAXMWpgpqcthqre0jKOCywSxBxdHLvw+KoIA5C7MEPWzuX9shKGB1MFXQJsd3BAWsA6YJWuzv4hEUcAFgmqBNJ7sJCAqYs3BGUNt92n8nsoB/LIKggDkLERRQNYiggKpBBAVUDSIooGqwtqDj3c1NWwzclmpyJWzjsuAICrhsQV1xJilfO5TC31bQsCw4ggI2L2hUYbmEoK4K42cPT6ygYVlwBAVsXNCyiXvQ8b0TVw08KgseUAKcNJTqgto5qIzw/Y6UtXWCurLgfpXszwh/NAeYs7C+oFJT+daBlAW1F0tOUFcWHEEBVQhqC9iaEd7XBI/KgiMooA5BpahyX+4tDbe8oK4sOIICqhDU6PjjJ+5W6FMvqCsLjqCASxa0QLKbgKCAOQsRFFA1iKCAqkEEBVQNIiigahBBAVWDCAqoGkRQQNUgggKqBpcrqMYzAqgKRFBA1SCCAqoGlyvozUbS7BkBVAUiKKBqEEEBVYMICqgaRFBA1SCCAqoGERRQNYiggKpBBAVUDSIooGoQQQFVgwgKqBpEUEDVYCVB+5ubm11XLWxz885vwwqhrtDdrYNE0WUEBVy8oFIM9OxBJ/B1b6IStmE9u0TRZQQFXLigZx+FNZXnClqswjKCAs5dWEHQoe0aLx51i/SgORWWJ1O8DeR1SxlBt+zDUSSonXJK7VpfbDkuuuyS/RmZErTJTx7gaoCVBc3pQW3RZQQFVDsH7Re5ikdQwJyFFQS17uVexUvRZQQFXIagwdDeB50V1E1Gu2HR5Q6CAi5F0JLJbgKCAuYsRFBA1SCCAqoGERRQNYiggKpBBAVUDSIooGoQQQFVgwgKqBpcrqAazwigKhBBAVWDCAqoGkRQQNXgcgWt/CdIGk8l4GWACAqoGkRQQNUgggKqBhEUUDWIoICqQQQFVA0iKKBqEEEBVYMICqgaRFBA1SCCAqoG6wk6ni6uHARnHx5EtZdPEBRQiaBRtdrhJ514CYICKhP04vFnD08QFLApsGlBx/dOpLJtJGipCsuvKLJMMlJR0OniykG/4wrcFutBZwVt7JMHuBpgTUGne1B7eXT7GEEBGwIbFtSM8Inq9QgKqEzQvsw/ZYxHUMBGwKYEdZPRv3wiv8utUAQFbASsJ2ixZDcBQQFzFiIooGoQQQFVgwgKqBpEUEDVIIICqgYRFFA1iKCAqkEEBVQNIiiganC5gmo8I4CqQAQFVA0iKKBqcLmCJv/MqOEDA1wNEEEBVYMICqgaRFBA1SCCAqoGERRQNYiggKpBBAVUDSIooGoQQQFVgwgKqBpEUEDVIIICqgYbEDSqf+OK3kwWXEZQwFpgs4La+t8ICtgc2Kigrv43ggI2BzYqqKv/PSHo/BLghBRMHUHDOuC+/neJHlTjRxZQFdiEoGEP6ut/Iyhgc2CTgvr63wgK2BzYpKC+/jeCAjYHNijol77+99OwIvgWggIqEDQ3SzkwwNUAERRQNYiggKpBBAVUDSIooGoQQQFVgwgKqBpEUEDVIIICqgYRFFA1iKCAqkEEBVQNIiiganC5gt4smwWcEUBVIIICqgYRFFA1iKCAqkEEBVQNIiigahBBAVWDCAqoGkRQQNUgggKqBhEUUDWIoICqwSqCurohnai+Td/81k08ccu7CApYH6wkqDMzFLR/5yQ4e9CJn7hq4A8iQ7ObgKCAOQvrC3r2ka8dFj3xxZqk1h2CAi5b0OEdEfHiUTd64hbYL1TIqbD8KkyJvZPXMqXnoFuRoK6I3VE3euIWXDw+8Otnf0YiQZv/5AGuBlhJ0Mke1HopPWj4JNmDIihgLbC+oFlzUDfiIyhgLbC+oEH/9rG/ivdPil/FIyhgzsI6goZllIfhXc9h2fugCAqYs7CKoGWT3QQEBcxZiKCAqkEEBVQNIiigahBBAVWDCAqoGkRQQNUgggKqBhEUUDWIoICqweUKqvGMAKoCERRQNYiggKpBBAVUDSIooGpwEYJmZ87f0wECJoOggKpBBAVUDS5HUEIKBkGJ6iAoUR0EJaqDoER1liDo2YPNqPhIbnwxCEukPmRgu/YP9MuDw83N25X2aIv/VAGluKqtfFEWvHi0eeugwh5lh3J2Kp3VaienMrgMQeV97G8VXHkoB+aJ1If0SH2o8XsH5UH5PGQReQ3vmze9AnjUTZyVkuDwzkmlplYD5az2K4EPutXAYBmCSimnqEhzTo5uPTVreiL1IZ2z9cyOuuVBSRaRA44/+LNuhab6YoDlQVcSqwIYONXKg1L51axQEfzwoFJTFy+ob23RtU3bPZH6kE1mEbmg+TxXAC8e/4vpC8qDZoST8bY8OL73jzLEVzpG6bIqNNX1oFWamk3kNXXxgkr1u3KCeiL1IRO8eNSpBI53zbteAex3ZLAqD5qZiPSiFcBdq3WVY7SLKoBuulgetEP8rQrHGKxuD2rL7i2w6zULLyr1oDZH3YV2S7ZCZoU9ms/S8PZxhT2ai6QfP74qPWiZOagTtMLcRbqXivOzapNXd2ncWeAezx5WntgddSqdHN/ZVTvGSpPXYDlX8Z3iV/G27Z5IfcigdruJXZUA/XtQHgzchXi1PV48Oa6wx6Ou67dLg+66rMJZdT1oedBOXjOIvLO6mvdBq9/qM2Slm4tBnfug1fZoFla7uehH1Eo3ias11YCZhLr7oISUCIIS1UFQojoISlQHQYnqIChRHQQlqoOgi0qv1Wqt7c9Z4ZtnC2vLFQqCLibnezdeiqQ7mWuM3pxn72sbBF1MDsVPY6h7SAuCpgZBF5LT7bjrPN9rtda9kObH6M2ftlutnZH5sbHEFmoNgi4kie7xfG/d/j8StG161d615/SgqUHQhWT0refh08G15/ZHLOiO70kRNCUIupAk7BvINDQUcvqRTAdBF5JwDnr69j6ClgqCLib+8t3MNQdyMzQ5xCPovCDoYhLfBw0vkk63N8zjWiRo8kKfREHQReUw/C9J/jZTIDeWfvR2JKhZYX3ZbVQYBCWqg6BEdRCUqA6CEtVBUKI6CEpUB0GJ6iAoUR0EJaqDoER1EJSoDoIS1UFQojoISlQHQYnqIChRHQQlqoOgRHUQlKgOghLVQVCiOghKVAdBieogKFEdBG04v0+P0s3qD4I2nN+/Skt9QW+mpokW6w6CNhwEbTYI2nAQtNkgaMNB0GaDoA0HQZsNgjYcBG02CBpEBbrt1xtMRup2fvNs9juMEi9MLUPQZoOgQY6gIuC88tylBJWitfH3IcXf/WGeRf9L3UuOoDF2/lfJ5mRt7uoEQYOFCjohzISgM0snUljQVQuCBhOCSn1u8dR2dRuB+xq4jdGbf2d+dTXkR9/629a1X4q1bfuaCDqIq3cXE1TYndNtsyv7zPWg/2F+/6VZwb5umuNa4jebK+jouz+RLZkeVHYiL3znbubmrk4QNEgKKt9uIN/IYV9xX/9me1D/bXCy1qi9nvh2jvZO+F1cPoUEPX1734/q8bN4iD/cCHrrwek7z+Uh3Gy+oO0N+Q6mhKBtK37q5q5OEDQQQVs2157bUd7Y+X/ypTHOQifoTjSWR98MF3aGppNNfMlmgTmo08QYE+r6zoSg4qx5SR4Sm80X1GmZENQ9pG7u6gRBg2QP2nOmbtgRsbW2n5yDhoLG38oRfVlH4gtkCs5BD+XjYH8Ln8WCbrvvAzEbjr9fvoagaZu7OkHQYEJQ/3XZp9tr+8keNE3QIPCTyJ3DxJdsFxvit3fCIT56Fgv6Tvy9ntGGawiatrmrEwQNkoIOfCdj38rB/B7Uk/Y7uOIxvpCg1h07S5h4Fs9Bzf6lCdUEldG8dy18IXVzVycIGkxeJMn7uLY/sGOiFdT2cSmC2umqF7iXGIsLDfFmKnH97s75np1UmGdOMPO7v+yW7R2WvIqPBJWt/+E7kaBpm7s6QdBg5jaTfzvXfma7R/kGuNQedODnduap+6JDm2X/l6SrejGUFQRtOEsWtNe6gsP4vCBow1l2D7pqQdCGg6DNBkEbDoI2GwRtOPxVZ7NBUKI6CEpUB0GJ6iAoUR0EJaqDoER1EJSoDoIS1UFQojoISlQHQYnqIChRHQQlqoOgRHUQlKjO/wMrU7hoBA2TEwAAAABJRU5ErkJggg==" /><!-- --></p>
 <p>It is clear from this graph, that tornadoes are, by far, the most harmful weather event to the population health, both in injuries and in fatalities.</p>
 </div>
-<div id="across-the-united-states-which-types-of-events-have-the-greatest-economic-consequences" class="section level2">
-<h2>Across the United States, which types of events have the greatest economic consequences?</h2>
+<div id="across-the-united-states-which-types-of-events-have-the-greatest-economic-consequences" class="section level3">
+<h3>Across the United States, which types of events have the greatest economic consequences?</h3>
 <pre class="r"><code>ggplot(agg_eco, aes(EVENT, TOTAL/10^9, fill = Type)) + geom_col(position = &quot;dodge&quot;) +
         labs(x = &quot;Event&quot;, y = &quot;Cost in billions of dollars&quot;, title = &quot;The Monetary Damage of Weather Events&quot;,
              fill = &quot;Damage&quot;) + coord_flip() + theme(legend.position = &quot;bottom&quot;) + 
@@ -610,8 +587,9 @@ agg_eco</code></pre>
 <p>When looking at crop damage, the 3 most costly weather events are OTHER, FLOODS and STORMS</p>
 </div>
 </div>
+</div>
 <div id="conclusion" class="section level1">
-<h1>Conclusion</h1>
+<h1><strong>Conclusion</strong></h1>
 <p>It is very evident that measures need to be put in place to protect the population from getting injured because of tornadoes. While 90,000 is not an absurdly large number for all tornado injuries since the 1950’s, it is a number ~6 times as big as all the events in the “OTHER” category <em>combined</em>!</p>
 <p>The same could be said for the quality of buildings when having to deal with large bodies of water. It is an interesting finding that floods are more than twice as expensive as tornadoes, and the latter seem way more devastating at first glance.</p>
 </div>

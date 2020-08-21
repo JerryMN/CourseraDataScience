@@ -26,6 +26,8 @@ Here is all the work I have developed throughout the specialization. I have trie
 
 - [Project 1](https://jerrymn.github.io/CourseraDataScience/ReproducibleResearch/Project1/)
 
+- [Project 2](https://jerrymn.github.io/CourseraDataScience/ReproducibleResearch/Project2/)
+
 # Statistical Inference
 
 tba
