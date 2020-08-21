@@ -14,7 +14,7 @@ Here is all the work I have developed throughout the specialization. I have trie
 
 # Getting and Cleaning Data
 
-- [Course Project]((https://jerrymn.github.io/CourseraDataScience/GettingAndCleaningData/CourseProject/)
+- [Course Project](https://jerrymn.github.io/CourseraDataScience/GettingAndCleaningData/CourseProject/)
 
 # Exploratory Data Analysis
 
