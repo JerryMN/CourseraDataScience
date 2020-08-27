@@ -1,0 +1,49 @@
+Predict Next Word
+========================================================
+author: Gerardo Mondragón
+date: August 27th, 2020
+autosize: true
+
+Data Science Specialization <br />
+Capstone Project <br />
+Johns Hopkins University & Coursera <br />
+
+Predict Next Word
+========================================================
+
+The goal of this project is to make a web application which takes user input and outputs the three most likely predictions for the next word.
+
+The web app is hosted on:
+
+- <https://jerrymn.shinyapps.io/PredictNextWord/>
+
+The source code can be consulted at:
+
+- <https://github.com/JerryMN/CourseraDataScience/tree/gh-pages/10_Capstone>
+
+Shiny Application
+========================================================
+
+The application uses the Shiny tool in R. It involves a text prediction algorithm to predict the next 1-3 words for any given input.
+
+More specifically, the algorithm is an n-gram algorithm. An n-gram is a continuous sequence of *n* words from a given string of text.
+
+The algorithm was trained using a sample from a very large dataset coming from blogs, news and Twitter sources. The most popular n-grams were found from this sample and then used to build the actual algorithm.
+
+The result is a quick, responsive and accurate prediction algorithm, which is similar to what we have nowadays in our phones.
+
+The Algorithm
+========================================================
+
+All in all, the dataset was over 4.2 million lines. The sample was brought down to 800,000 lines. 
+
+This sample was then "tokenized" and cleaned (e.g. removing profanities, numbers, hashtags, etc.)
+
+As text is entered by the user, the algorithm goes from a 4-gram down to a 2-gram to detect a match. The actual choice for the prediction is the longest, most frequent matching n-gram. This is efficient as it uses a back-off strategy, instead of going from lower n-grams to higher ones.
+
+Application UI
+========================================================
+
+It takes less than a second after you have finished writing the input before the app comes up with the predictions automatically. 
+
+The slider below the input box allows you to change how many predicted words you would like to have displayed.
